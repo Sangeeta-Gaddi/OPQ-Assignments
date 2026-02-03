@@ -1,0 +1,82 @@
+/* PART A(Selectors)
+Qs1. Give the h1 header a unique id- “mainTopic” & set its color to blue using the
+selector. */
+.mainTopic{
+    color: blue;
+}
+
+
+
+/* Qs2. Align all the text in the page to the center using a universal selector. */
+*{
+    text-align: center;
+}
+
+/* Qs3. Change the font style of all heading tags in the page to ‘Georgia’. */
+h1,h3,h5{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* Qs4. Set the color of all the paragraphs to white & background color to cornflower 
+(Without using the element selector- ‘p’)*/
+.para{
+    color: white;
+    background-color: cornflowerblue;
+}
+
+
+/* Qs5. Select all buttons inside div and change their background color to purple & t color to azure. */
+div button{
+    background-color: purple;
+    color: azure;
+}
+
+
+/* PART B(Pseduo class & elements)
+Qs6. Change the button background color to yellow & over it. */
+div button:hover{
+    background-color: yellow;
+    color: black;
+}
+
+
+/* Qs7. Change the color of every odd numbered paragraph to yellow. */
+p.para:nth-of-type(odd){
+    color: yellow;
+}
+
+/* Qs8. Change the color of the first letter of h1 heading to red. */
+h1::first-letter{
+    color: red;
+}
+
+/* Qs9. Set the text color of the checkbox label to dark green when the checkbox is ticked. */
+#yes:checked + label{
+color: green;
+}
+
+/* Qs10. Order these rules according to their specificity, from least specific to most
+specific. :
+- h1
+-#mainContent
+- .main
+- div .main */
+
+/* 1. h1
+Type selector(element)
+specificity= 0-0-1 (least)
+
+2. #mainContent
+ID selector
+specificity= 1-0-0(most)
+
+3. .main
+Class selector(more specific than element selectors)
+specificity= 0-1-0
+
+4. div .main
+combination of element and class
+specificity=0-1-1(more than single class) */
+
+/* ---> Order accordig to their specificity(least to most)
+h1 -> .main -> div .main -> #mainContent */

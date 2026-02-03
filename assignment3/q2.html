@@ -1,0 +1,63 @@
+<!-- Q2. Recreate the following form using HTML:
+Hint- Use the following : 
+-Text Input for Name
+- Radio Button for Sex
+- Give Options : India, Nepal, USA, Canada for Country
+- Text Area for Message
+- Checkbox for Subscribe
+- Submit Button -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+
+<body>
+    <form>
+
+        <label>Name:</label>
+        <input type="text">
+        <br><br>
+
+
+        <label>Sex:</label>
+        <label>
+            <input type="radio" name="sex"> Male
+        </label>
+
+        <label>
+            <input type="radio" name="sex"> Female
+        </label>
+        <br><br>
+
+
+        <label>Country:</label>
+        <select name="country">
+            <option value="">Select an option</option>
+            <option value="india">India</option>
+            <option value="nepal">Nepal</option>
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+        </select>
+        <br><br>
+
+
+        <label>Message:</label><br>
+        <textarea rows="5" cols="40"></textarea>
+        <br><br>
+
+
+        <input type="checkbox">
+        <label>Subscribe?</label>
+        <br><br>
+
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
