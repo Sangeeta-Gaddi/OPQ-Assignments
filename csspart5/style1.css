@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+
+.container{
+    height: 400px;
+    width: 400px;
+    border: 2px solid teal;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    gap: 20px;
+    
+}
+
+.box{
+    width: 100px;
+    height: 100px;
+    background-color: grey;
+    border: 2px solid black;
+    font-size: 50px;
+    border-radius: 20%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
+}

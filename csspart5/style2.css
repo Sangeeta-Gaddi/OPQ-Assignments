@@ -1,0 +1,25 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    height: 50px;
+    width: 900px;
+    border: 2px solid black;
+    display: flex;
+    background-color: pink;
+    align-items: center;  
+    border-radius: 10px;
+}
+
+.item{
+    height: 50px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    
+}
