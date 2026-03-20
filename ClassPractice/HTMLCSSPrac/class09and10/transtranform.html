@@ -1,0 +1,37 @@
+<!-- Transition
+A transition lets you animate changes smoothly when a property changes (like color, size, or position).  
+Syntax:  
+transition: property duration timing-function;
+
+
+2.Transform
+A transform changes how an element looks by rotating, scaling, skewing, or translating it.  
+Syntax:  
+
+transform: scale(), rotate(), translate(), skew(); -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: coral;
+      margin: 50px;
+      /* if element is transformed(scaled,rotated or moved) chage will happen graduallyover 0.5 seconds, not instantly, same with background color  */
+      transition: transform 0.5s ease, background-color 0.5s ease;
+    }
+
+    .box:hover {
+        /* when hover on the box, box grows 1.5times its original size and rotate by 45 degrees and chages background color to lightblue */
+      transform: scale(1.5) rotate(45deg); 
+      background-color: lightblue;         
+    }
+  </style>
+</head>
+<body>
+  <div class="box">I am Box</div>
+</body>
+</html>
+

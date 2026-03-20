@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* controls the transparency of color 
+        varies from 0 to 1
+        children remain unaffected*/
+        #alpha{
+            width: 300px;
+            height: 300px;
+            color: rgba(255, 0, 0, 0.2);
+            border: 2px solid black;        
+        }
+
+        /* controls the transpacency of entire element, includig its children also
+        same rage 0 to 1*/
+        #opacity{
+            width: 300px;
+            height: 300px;
+            background-color: red;
+            opacity: 0.5;
+            border: 2px solid black;  
+        }
+    </style>
+</head>
+<body>
+    <div id="alpha">I am div</div>
+    <br><br>
+    <div id="opacity">I am div</div>
+</body>
+</html>

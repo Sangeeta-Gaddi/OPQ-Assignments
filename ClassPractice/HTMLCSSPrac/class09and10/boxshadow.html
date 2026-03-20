@@ -1,0 +1,31 @@
+<!-- The box-shadow property in CSS adds a shadow effect around an element’s box. It’s a quick way to give depth or highlight an element.
+Used if u want shadow around the border use box shadow
+
+Synatx: box-shadow: offset-x offset-y blur-radius spread-radius color
+
+offset-x → horizontal position of the shadow (positive = right, negative = left)  
+offset-y → vertical position of the shadow (positive = down, negative = up)  
+blur-radius → how soft or sharp the shadow edges are  
+spread-radius → how big the shadow grows/shrinks (optional)  
+color → shadow color -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      width: 150px;
+      height: 100px;
+      background-color: lightyellow;
+      margin: 50px;
+      border: 2px solid black;
+
+      /* Shadow is 10px right, 10px down, 15px blurred, spread 5px bigger, and red in color. */
+      box-shadow: 10px 10px 15px rgb(99, 2, 2); 
+    }
+  </style>
+</head>
+<body>
+  <div class="box">Box with Shadow</div>
+</body>
+</html>
