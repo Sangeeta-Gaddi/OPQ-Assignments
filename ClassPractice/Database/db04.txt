@@ -1,0 +1,387 @@
+1. BETWEEN: is used to filter values within a range.
+-->Syntax:
+SELECT column_name
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+(Return rows where column_name is greater than or equal to value1 AND less than or equal to value2.)
+
+--------->BETWEEN IS INCLUSIVE(the values u mentioned for the range is also included, i.e, if u mention the range as 20 and 30, it includes the values that comes between 20 and 30, also includes  the values 20 and 30.
+
+-------------------------SQL WORKBENCH
+SHOW DATABASES;
+
+USE SOCIAL_DB;
+
+SHOW TABLES;
+
+SELECT * FROM PEOPLE;
+
+-- SELECTS THE person age between 22 and 35, and also person having age 22 and 35
+SELECT * FROM PEOPLE
+WHERE AGE BETWEEN 22 AND 35;
+
+-- can be written using 'WHERE"
+SELECT * FROM PEOPLE
+WHERE AGE>=22 AND AGE<=35;
+
+-- fOR BOTH u get same output
+
+EX:02---------------------------------BETWEEN USED FOR DATES
+-- Create sales and data
+DESCRIBE SALES;
+SHOW TABLES;
+
+CREATE TABLE SALES(ID INT PRIMARY KEY AUTO_INCREMENT, AMOUNT INT, SALES_DATE DATE);
+DESCRIBE SALES;
+
+-- NNEED TO PASS DATE VALUES IN QUOTES(as string)
+INSERT INTO SALES (AMOUNT, SALES_DATE) 
+VALUES 
+(100, '2026-01-01'),
+(200, '2026-02-02'),
+(300, '2026-02-03'),
+(250, '2026-03-03');
+
+SELECT * FROM SALES;
+
+-- NOW FIND SALES BETWEEN SOME RANGE(OR QUARTER)
+EX:02
+SELECT * FROM SALES
+WHERE SALES_DATE BETWEEN "2026-01-01" AND "2026-02-03";
+
+---------------------------------BETWEEN FOR CHARACTERS(Range of Text (Alphabetical)
+SELECT * FROM PEOPLE
+WHERE NAME BETWEEN "A" AND "M";--> gives names starts between 'A' and 'M'
+
+--------------------------------------------
+Corner Cases 
+Case 1: Boundary Values Included
+If value is exactly equal to boundary it will be included.
+SELECTS THE person age between 22 and 35, and also person having age 22 and 35
+SELECT * FROM PEOPLE
+WHERE AGE BETWEEN 22 AND 35;
+
+Case 2: Wrong Order
+If you reverse the range:
+SELECT * FROM PEOPLE
+WHERE AGE BETWEEN 35 AND 22;
+Result: No rows returned 
+Because SQL expects lower value first.
+
+Case 3: NULL Values
+BETWEEN does not work with NULL values.
+NULL is ignored because NULL means unknown value.(if in the mentioned range, if u have value as "NULL" that will be ignored, it won't be available in output table)
+--------------------------------------------
+
+2.NOT BETWEEN
+Used to exclude a range.
+EX:SELECT * FROM PEOPLE
+WHERE AGE NOT BETWEEN 22 AND 30;
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.LIKE OPERATOR(LIKE operator is used to search for a specific pattern in a column. It is mostly used with text (string) data.)
+1. Syntax of LIKE
+SELECT column_name
+FROM table_name
+WHERE column_name LIKE pattern;
+
+---->The pattern contains special characters called wildcards.
+2. Wildcards Used with LIKE
+Wildcard	Meaning
+%	    Represents zero or more characters
+_	    Represents exactly one character.
+
+-----------------------USE CASES
+Use Cases of LIKE
+-- LIKE OPERATOR(WHEN U KNOW PARTIAL INFO/PATTERN/WORD)
+SELECT * FROM PEOPLE;
+
+INSERT INTO PEOPLE VALUES(9,"SANGU",24,"INDIA");
+INSERT INTO PEOPLE VALUES(10,"NIKITA",20,"USA");
+
+-- percetage(%)
+SELECT * FROM PEOPLE
+WHERE NAME LIKE "S%";
+-- Gives u name starts from "S", it considers only first letter, after "S" anycharacster it can be (% wildcard: represents zero or more characters)
+
+-- Find values ending with a letter, Example: Names ending with a(pass wild card t first, i.e starting name can any number of character, but needs to be end with "A"
+SELECT * FROM PEOPLE
+WHERE NAME LIKE "%A";
+
+-- Find values containing a word/character in the middle(not at startig/endin, but inbetween(middle), staring and ending can have any character/word
+-- Example: Names containing i(in middle)
+SELECT * FROM PEOPLE
+WHERE NAME LIKE "%I%";
+
+
+-- underscore(_):Represents exactly one character
+INSERT INTO PEOPLE VALUES(11,"RAJ",34,"INDIA");
+INSERT INTO PEOPLE VALUES(12,"ROY",33,"US");
+
+-- First letter R, Followed by exactly 2 characters
+SELECT * FROM PEOPLE
+WHERE name LIKE 'R__';
+
+-- FIND name starts with J and folowed by two characters(becoz two underscore) and ends with N
+SELECT * FROM PEOPLE
+WHERE name LIKE 'J__N';
+
+
+-- Find gmails ending with yahoo.com
+SELECT * FROM customer2;
+
+INSERT INTO CUSTOMER2(ID, EMAIL, NAME)
+VALUES
+(3, "sam@gmail.com", "SAM"),
+(4, "ram@yahoo.com", "RAM"),
+(5, "sonu@gmail.com", "SONU"),
+(6, "raj@gmail.com", "RAJ");
+
+
+INSERT INTO CUSTOMER2(ID, EMAIL, NAME)
+VALUES(7, "roy@yahoo.com", "ROY");
+
+-- Select the user with yahoo users
+SELECT * FROM CUSTOMER2
+WHERE EMAIL LIKE "%@yahoo.com";
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+3. IN OPERATOR:Used to match multiple values from given list of values.
+-->Instead of checking one value at a time, you give the database a list of values, and it checks if the column value exists in that list.
+-->The IN operator is used in the WHERE clause to match a value against multiple possible values.
+Instead of writing many OR conditions, you can write one clean statement.
+
+Syntax:
+SELECT column_name
+FROM table_name
+WHERE column_name IN (value1, value2, value3);
+--->Meaning:
+Return rows where column_name equals any value inside the list.
+
+--  -------------------------------------------------------IN OPERATOR
+SELECT * FROM PEOPLE
+WHERE NAME IN("NIKITA","SANGU","ADVIK");
+
+-- I Want the peoplr from only these age group(THIS IS NOT range, we are tellingthat we want people who has age 22,23 and 32)
+SELECT * FROM PEOPLE
+WHERE AGE IN(22,32,23);
+
+
+-- -------------------------------------------------------------------------------------------------------------------------------------
+4. NOT IN(NOT IN (Opposite) :-NOT IN returns rows not matching the list.
+SELECT * FROM PEOPLE
+WHERE AGE NOT IN(22,32,23);
+-- u wull get people, except who are of age 22,23 and 32
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+5. NULL:NULL is a special value that means:No value / Unknown value / Missing data 
+-->Think of it like an empty box. The column exists, but nothing is stored inside it.
+-->IT doesn't means zero(0), ""(empty string), false
+
+-- THIS doesn't  WORKS(WE GET empty, becoz null IS EMPTY, IT IS NOTHING, SO U WON'T GET ANYTHING
+-- SELECT * FROM PEOPLE
+-- WHERE LOCATION=NULL;
+
+
+-- so use IS NULL
+SELECT * FROM PEOPLE;
+
+INSERT INTO PEOPLE VALUES(13,"REK",20,NULL);
+INSERT INTO PEOPLE VALUES(14,"KEN",22,"RUSSIA");
+INSERT INTO PEOPLE VALUES(13,"PREETI",30,NULL);
+
+SELECT * FROM PEOPLE
+WHERE LOCATION IS NULL;
+
+-- -------------------------IS NOT NULL(OPPOSITE OF NULL)
+SELECT * FROM PEOPLE
+WHERE LOCATION IS NOT NULL;
+-- GIVES U data where location is not null
+
+
+----------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
+
+*. STRING OPRTAIONS:
+string operations in db 
+1.concat 
+2.conact-ws(with separator)
+3.substring 
+4.replace 
+5.instr 
+6.locate 
+7.length
+
+1.CONCAT():
+Purpose: Join multiple strings together into
+-- STRING OPERATIONS
+-- 1.concat(): joining multiple strings into one string
+Syntax
+SELECT CONCAT(string1, string2, string3);
+
+EXAMPLES:
+
+1.SELECT CONCAT("HELLO", "WORLD");
+
+-- USE alias , to give the column name IN OUTPUT table
+2.SELECT CONCAT("HELLO", "WORLD") as greet;
+
+-- u can add(concat space as well
+3.SELECT CONCAT("HELLO"," ", "WORLD") as GREET;
+
+-- I want to construct username by adding (name,age and location)
+4.SELECT CONCAT(NAME,AGE,LOCATION) AS USERNAME
+FROM PEOPLE; 
+
+------------------------------------------------
+2.CONCAT_WS(WS = With Separator)
+-->Purpose: Join strings with a separator.
+Syntax
+SELECT CONCAT_WS(separator, string1, string2);
+
+-- use separator(concat_ws)
+SELECT CONCAT(NAME,"_" ,AGE, "_", LOCATION) AS USERNAME
+FROM PEOPLE;
+
+-- manually adding(see above example) separator becomes not easy so use concat_ws()
+-- here, u can add only once, at first argument
+SELECT CONCAT_WS("_",NAME,AGE,LOCATION) AS USERNAME
+FROM PEOPLE;
+
+SELECT CONCAT_WS("*","A","B","C") AS EXAMPLE;
+-------------------------------------------------------------------------------------------------------------------------
+
+3.SUBSTRING : Extract part of a string.(imp: POSITION STARTS FROM ONE(1), NOT ZERO(0)
+
+Syntax
+SUBSTRING(string, start_position, length);
+
+EX:
+1.SELECT SUBSTRING('DATABASE', 3) AS RESULT;
+Output : TABASE  (Start from position 3 and goes upto end).
+
+2.SELECT SUBSTRING('DATABASE', 1, 4);
+Output : DATA  (Start from position 1 and take 4 characters).
+
+3.SELECT SUBSTRING('DATABASE', 4,3 ) AS RESULT;
+Output : ABA(Start from position 4 and 3 characters after POSITION 4).
+
+----------------------------------------------------------------------------------------------------------------------------
+4.Replace:REPLACE() function is used to find a specific part of a string and replace it with another value.
+1. Syntax
+REPLACE(original_string, old_text, new_text)
+-->Meaning
+original_string → the text you want to modify
+old_text → the part you want to replace
+new_text → the new value
+
+---->-- replace "apple" by "mango"
+SELECT REPLACE("I LIKE APPLE", "APPLE", "MANGO") AS OUTPUT;
+
+-- replace "-" by epty string("")-->U CAN give "" (just empty strng or " "(space between empty str)
+SELECT REPLACE("1800-020-30000","-"," ");
+
+-- replace $ by ""
+SELECT REPLACE("$500","$","");
+
+-- REPLACE needs the proper case inputs(case sensitivity)(Won't work)
+SELECT REPLACE("I lIKE Apple","apple","mango");
+
+-- if match deosn't found, then ot givesthe same input as output
+select replace("HeLLo","xyz","abc");
+
+---------------------------------------------------------------------------------------------------
+
+5.INSTR:find position of subbstring in string
+-->INSTR() is a string function used to find the position of a substring inside another string.
+-->1. Syntax
+INSTR(string, substring)
+Meaning
+string → the main text
+substring → the text you want to find
+-->The function returns the position (index) where the substring starts.
+EX:
+-- RETURNS position of substring, returns position of "GRA" (from which ndex substring is starting)
+SELECT INSTR("PROGRAMMING","GRA");
+
+-- INSTR(), FINDS the 1st occurance the substring, 1st MIKE is at 5th position, so it returns 5 in o/p
+SELECT INSTR("Hey Mike and Mike","Mike");
+
+-- returns zero(in o/p), if not found
+SELECT INSTR("hey MIKE","JHON");
+
+------------------------------------------------------------------------------------------------------
+6. LOCATE:LOCATE() function is used to find the position of a substring inside another string.((((SQL positions start from 1, not 0.)))))
+1. Syntax
+LOCATE(substring, string, start_position)
+
+Meaning
+substring → the text you want to find
+string → the main text
+start_position → (optional) where SQL should start searching
+
+If the substring is not found, the result is 0.
+
+-------------------------EXAMPLES:
+-- U GET 5 as output, becoz 1st mike starts/locates ar 5thindex position
+SELECT LOCATE("MIKE","HEY MIKE GM",1);
+
+-- second mike, give the startig poin rather than one(1),u gave 9 as start position,so starts to search/locate the MIKE from 9th position, it got MIKE at 17thpos(i.e,second MIKE) u get 17, becoz second mike starts at 17 
+SELECT LOCATE("MIKE","HEY MIKE GM and MIKE",9);
+
+-- find email starts position
+select locate("@",email) from customer2;
+
+
+-----------------------------------------------------------------------------------------------
+7.LENGTH():LENGTH() function is used to count the number of characters in a string.
+-------->(TO VALIDATE INPUTS, like password must be >8 characters, phone num should be 10)
+
+------------>Important Note
+In some databases:
+LENGTH() → returns bytes
+CHAR_LENGTH() → returns number of characters
+
+
+-->1. Syntax
+LENGTH(string)
+
+Meaning
+string → the text whose length you want to measure.
+-- for both output is 5
+select length("Hello");
+select character_length("HELLO");
+
+-- outpur ar different
+-- o/p is 4
+select length("😍");
+-- o/p is 1
+select character_length("😍");
+
+-- other ex
+select length("Hello World");
+
+--------------------------------------------------------------------------
+8. LEFT and RIGHT: how many characters we want from RIGHT and LEFT
+
+EX:
+1.SELCET LEFT("Hello World",4);
+O/P: Hell (4 characters from left)
+
+2. SELECT RIGHT("HELLO WORLD",4);
+O/P: ORLD
+
+USE CAses:
+-- To get file extensions we can use 
+SELECT RIGHT("file1.pdf",3);  O/P:pdf
+select right("video.mp3",3);  O/P: mp3
+
+
+-- to mask the phone number
+select concat("******", right("988657546",4));  O/P:*******7546
+
+

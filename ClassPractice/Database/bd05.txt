@@ -1,0 +1,332 @@
+----------STRING operations continue
+-------->Using LOWER() or UPPER()makes the comparison consistent.
+
+1. UPPER(): Converts all letters in a string to uppercase (capital letters).
+Syntax
+UPPER(column_name);
+EX:
+select upper("Hello");   O/P:HELLO
+select upper("heLLO World");
+
+2. LOWER(): Converts all letters in a string to lowercase (small letters).
+Syntax
+LOWER(column_name);
+EX:select lower("HEllO"); O/P:hello
+
+3.-- convert while entering the data
+CREATE TABLE TEST(ID INT,AGE INT,EMAIL VARCHAR(20));
+
+DESCRIBE TEST;
+
+-- converts the email into lowercase while inserting itself, u can see in output, mail="jhon@gmail.com"
+INSERT INTO TEST(ID,AGE,EMAIL)VALUES(1,25,LOWER("Jhon@gmail.com"));
+
+SELECT * FROM TEST;
+
+-------------------------------------------------------------------------------------------------
+3. trim():removes spaces from the beginning and end of a string.
+Syntax:
+TRIM(string)
+
+Example
+SELECT TRIM('   Hello World   ');
+
+---->TRIM() can also remove specific characters.
+
+Syntax
+TRIM(character FROM string)
+
+Example:
+SELECT TRIM('x' FROM 'xxxHello Worldxxx');  O/P: Hello World
+
+-------------------------LTRIM() and RTRIM()
+-- LTRIM()	Removes spaces from left side
+SELECT LTRIM('   Hello');
+
+-- RTRIM()	Removes spaces from right side
+SELECT RTRIM('Hello   ');
+
+
+---------------------------------------------------------------------------------------------
+4.REVERSE():string function used to reverse the characters of a string.
+Syntax
+REVERSE(string)
+
+EX:
+select reverse("Hello GM");
+
+------>Example with Numbers
+SELECT REVERSE('12345');
+
+Output:54321
+Even numbers are treated as text characters, so they reverse.
+
+------------------------------------------------------------------
+5. FORMAT() is used to format a number with commas and a specified number of decimal places.
+Syntax
+FORMAT(number, decimal_places)
+number → the value to format
+decimal_places → number of digits after the decimal point
+
+EX:
+SELECT FORMAT(1234567.8912, 2);
+
+ O/P:  1,234,567.89(Commas are added for readability, Only 2 decimal places are kept)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* ARITHMETIC OPERATORS: Arithmetic Operators are used to perform mathematical calculations on numbers stored in database columns.
+Types of Arithmetic Operators in SQL
+Operator  Meaning	
++	Addition	
+-	Subtraction	
+*	Multiplication	
+/	Division	
+%	Modulus (remainder)
+
+
+--->-- add
+select 10+30 as result;
+
+create table people(ID INT, NAME VARCHAR(20),AGE INT,LOCATION VARCHAR(20));
+
+describe PEOPLE;
+
+INSERT INTO PEOPLE(ID,NAME,AGE,LOCATION) 
+VALUES
+(1,"Sangu",23,"INDIA"),
+(2,"Shri",28,"UK"),
+(1,"Advik",20,"JAPAN"),
+(1,"Swara",27,"INDIA");
+
+SELECT * FROM PEOPLE;
+
+SELECT NAME ,AGE,AGE+5 AS AGE_AFTER_5YEARS
+FROM PEOPLE;
+
+-- CREATE TABLE CART AND INSERT VALUES
+CREATE TABLE CART(ID INT AUTO_INCREMENT PRIMARY KEY, 
+ITEM_NAME VARCHAR(20), 
+ITEM_PRICE INT,
+ITEM_QTY INT
+);
+
+INSERT INTO CART(ITEM_NAME,ITEM_PRICE,ITEM_QTY)
+VALUES
+("Phone",4000,2),
+("Laptop",9000,4),
+("Tab",5000,3),
+("Charger",3000,2);
+
+select * from cart;
+
+-- calaculate totalprice(tota items*cost for one item)
+SELECT ITEM_PRICE,ITEM_QTY, ITEM_PRICE * ITEM_QTY AS TOTAL_PRICE
+FROM CART;
+
+--------------------------------------------------------------------
+BASIC FORMULA FOR DISCOUNT:
+Total Price = ITEM_PRICE * ITEM_QTY
+Discount Amount = Total Price * Discount_Percentage / 100
+Final Price = Total Price - Discount Amount
+
+-- CALCULATE DISCOUNT(10%)
+SELECT ITEM_NAME,ITEM_PRICE,ITEM_QTY,
+ITEM_PRICE * ITEM_QTY AS TOTAL_PRICE,
+(ITEM_PRICE * ITEM_QTY) * 10 / 100 AS DISCOUNT,
+(ITEM_PRICE * ITEM_QTY) - ((ITEM_PRICE * ITEM_QTY) * 10 / 100) AS FINAL_PRICE
+FROM CART;
+
+
+---CALCULATE TAX
+BASIC FORMULA FOR TAX CALCULATION
+TOTAL_PRICE = ITEM_PRICE * ITEM_QTY
+TAX_AMOUNT = TOTAL_PRICE * TAX_PERCENT / 100
+FINAL_PRICE = TOTAL_PRICE + TAX_AMOUNT
+
+EX:TAX OF 18%
+
+--------->-- NULL WON'T WORKS WITH arithmetic operators
+SELECT 10+NULL;   O/P: NULL
+
+----------------------------------------------------------------MODIDIFYING TABLE(DATA IS NOT TOUCHED HERE)
+-->modifying a table means changing the structure of an existing table. The command used is ALTER TABLE.
+
+---------------1.Add a New Column :Add a new column to the table.(USE ADD with ALTER)
+-- add new columnn
+select * from people;
+
+1.ALTER TABLE PEOPLE
+ADD USERNAME VARCHAR(30);  --->BY default this column values becomes NULL, so u can specify NOT NULL constarint(see 2nd example)
+
+2.ALTER TABLE PEOPLE
+ADD SALARY INT NOT NULL;  --->specifying NOT NULL(then u see value zero(0), until u pass the numeric values, becoz zero is not null value.
+
+-------> u ca add the column at spcific position
+3. ALTER TABLE PEOPLE
+ADD SALARY INT AFTER AGE;
+
+-------------------2. Deleting the column(USE DROP)
+Drop (Delete) a Column :Remove a column from the table.(BE carefule, becoz once u delete the column all the related data will be lost), Herw salary column was empty so we deleted it.
+
+------>-- DON'T drop the PRIMARY KEY column
+
+-- delete the column(DROP)
+EX: ALTER TABLE PEOPLE
+    DROP SALARY;
+
+------> we can delet the multiple columns(use comma separator)
+EX: alter table people
+    drop salary,drop username;
+
+----------------------------------3.Modify Column Data Type :Change the data type of a column.(USE MODIFY)
+EX:ALTER TABLE PEOPLE
+MODIFY AGE VARCHAR(30);
+
+DESCRIBE PEOPLE; ----> U CAN see the age datatype is changed from INT to VARCHAR
+
+EX:2 
+-- again u can convert back to int
+ALTER TABLE PEOPLE
+MODIFY AGE INT;
+
+------------------NOTE:
+1. YOU CANNOT CONVET string into int(VARCHAR-->INT), not allowed
+
+----------------------------------4.RENAMING(changing the name of the column).(USE CHANGE) and fro changing TBALE name(USE RENAME)
+--1. RENAME column
+ALTER TABLE PEOPLE
+CHANGE LOCAION COUNTRY VARCHAR(20);  --->changing column country to location
+
+SELECT * FROM PEOPLE;
+
+
+2. Rename table(USE RENAME)
+-- rename table
+ALTER TABLE PEOPLE
+RENAME TO STUDENTS;
+
+-------------------> now u won't get output if u do SELECT * FROM PEOPLE;(becoz people table is renamed to STUDENTS)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+* CONSTRAITS:(rules applied to table columns, to ensure to have proper data)
+1.NOT NULL
+2. UNIQUE
+3. DEFAUL
+4. PRIMARY KEY
+5. AUTO_INCREMENT
+
+CONSTRAINTS(USE ALTER with add,modify,drop etc)
+-- AS OF NOE HAVEN'T ADDED any constraits
+CREATE TABLE PEOPLE1(ID INT,NAME VARCHAR(20),AGE INT);
+
+DESCRIBE PEOPLE1;
+
+-- add constraints(NOT NULL)
+ALTER TABLE PEOPLE1
+MODIFY NAME VARCHAR(20) NOT NULL;
+
+-- ADD primary key CONSTARINT(use add)
+ALTER TABLE PEOPLE1
+ADD PRIMARY KEY(ID);
+
+-- ADD auto_increment(use modify)
+ALTER TABLE PEOPLE1
+MODIFY ID INT AUTO_INCREMENT;
+
+-- ADD unique(ADD)
+ALTER TABLE PEOPLE1
+ADD UNIQUE(NAME);
+
+-- ---------------DROP CONSTARINTS
+-- WE can't directly drop the primary key(no need of passing the column becoz, primary key will be there for only one primary key in the table), becoz we need to remove first auto-increment
+-- REMOVE auto_increment(Remove extra)(BY MODIFYING ID, DON'T SPECIFY auto_incrememt)
+ALTER TABLE PEOPLE1
+MODIFY ID INT;
+
+ALTER TABLE PEOPLE1
+DROP PRIMARY KEY;
+
+-- ----remove NOT NULL(same just modify the column, don't specify the NOT NULL while modifying)
+ALTER TABLE PEOPLE1
+MODIFY ID INT;
+-- SEE after int, you have't mentioned not null, it means that u are removing the NOT NULL
+
+
+--------------------------------------------INDEX(SHOW): GIves all the related to table, it focus on UNIQUENESS OF the tablee(unique column)
+-- -----------------------------------INDEX(SHOW):gives u all the related data(unique) of table.
+-- Shows the unique column(NAME) in the table
+SHOW INDEX FROM PEOPLE1;
+
+-- drop the UNIQUENESS(ALTER WITH DROP and INDEX)
+ALTER TABLE PEOPLE1
+DROP INDEX NAME;
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*   MODIFYING THE DATA(CRUD OPERATIONS(create,read,update,delete)):
+SORTING OF DATA:
+
+1. ORDER BY:is used to sort the result of a query in a particular order.
+SYNTAX:
+
+SELECT column1, column2
+FROM table_name
+ORDER BY column_name;
+---->By default, it sorts Ascending (ASC)-->SMALL TO BIG.
+
+-- ORDER BY
+-- 1. ASC(BY DEFAULT)
+SELECT  * FROM PEOPLE
+ORDER BY AGE;
+
+USE SOCIAL_DB;
+
+ DESCRIBE PEOPLE;
+
+2.-- DESC(BIG TO SMALL)
+ SELECT  * FROM PEOPLE
+ORDER BY AGE DESC;
+
+3.SELECT * 
+FROM PEOPLE
+WHERE AGE > 22
+ORDER BY AGE DESC;
+---->Filter records (WHERE AGE > 22)
+Sort results (ORDER BY AGE DESC)
+
+-----------------------------------------2. LIMIT(LIMIT clause is used to restrict the number of rows returned by a query.)
+-- I want to see sample data(not complete millions of data)
+-- I WANT 1st 3 records
+EX:SELECT * FROM people
+   LIMIT 3;
+
+2.SELECT * 
+FROM people
+ORDER BY AGE DESC
+LIMIT 3;
+
+3.-- -------------------------------update and deletE(modifying data)
+-- update(EDIT/MODIFY Data)
+1.UPDATE PEOPLE
+SET AGE=50
+WHERE ID=11;
+
+--2. UPDATE multiple values
+UPDATE people
+SET AGE=25, LOCATION="USA"
+WHERE ID=10;
+
+--3. without WHERE, Update happens for all rows
+UPDATE STUDENTS
+SET AGE=AGE+2;
+
+4.-- SET/UPDATE DEFAULT LOCATION AS INDIA WHEREVER THE LOCATION IS NULL
+UPDATE PEOPLE
+SET LOCATION="IND"
+WHERE LOCATION IS NULL;
+
+---------------------------------------------4. DELETE(REMOVE DATA FROM Db)(WHERE IS VERY IMP WHILE DELETING)
+ex:DELETE FROM PEOPL
+WHERE ID=8;
+
+
+
