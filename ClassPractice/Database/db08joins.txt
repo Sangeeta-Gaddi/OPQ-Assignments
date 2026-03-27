@@ -1,0 +1,133 @@
+* JOINS:JOIN is used to combine data from two or more tables based on a related column.
+-->Usually the connection is made using a Primary Key in one table and a Foreign Key in another.
+-->we will get the combined data from both the tables.
+
+-------------------------1. INNER JOIN:Returns only the matching rows from both tables.
+
+use social_db;
+
+CREATE TABLE CUSTOMERS8(
+cust_id INT PRIMARY KEY,
+name VARCHAR(20),
+city VARCHAR(20)
+);
+
+INSERT INTO CUSTOMERS8 VALUES
+(1,'Ram','Pune'),
+(2,'Sam','Mumbai'),
+(3,'Ravi','Delhi'),
+(4,'Asha','Chennai');
+
+select * from customers8;
+
+CREATE TABLE ORDERS8(
+order_id INT PRIMARY KEY,
+product VARCHAR(20),
+cust_id INT
+);
+
+INSERT INTO ORDERS8 VALUES
+(101,'Laptop',1),
+(102,'Mobile',2),
+(103,'Tablet',1),
+(104,'Camera',5);
+
+select * from orders8;
+
+-- 
+SELECT customers8.name, orders8.product
+FROM customers8
+INNER JOIN orders8
+ON customers8.cust_id = orders8.cust_id;
+
+-- Ravi and Asha are not shown because they did not place any order.
+-- Camera order (cust_id = 5) is not shown because customer 5 does not exist.
+-- (INNER JOIN only shows rows where both tables match).
+
+
+----------------------------2. OUTERJOIN:OUTER JOIN is used to retrieve matching rows from two tables and also include non-matching rows from one or both tables.
+-->When there is no match, the database fills the missing values with NULL.
+-->So unlike INNER JOIN, which shows only matches, OUTER JOIN also shows unmatched rows.
+
+--->Types of OUTER JOIN :There are three types:
+1.LEFT OUTER JOIN
+2.RIGHT OUTER JOIN
+3.FULL OUTER JOIN
+
+----------->1. LEFT OUTER JOIN:
+Returns all rows from the left table and matching rows from the right table.
+If there is no match, NULL is returned.
+
+EX:
+SELECT customers8.name, orders8.product
+FROM customers8
+LEFT JOIN orders8
+ON customers8.cust_id = orders8.cust_id;
+
+
+Ram → has orders
+Sam → has order
+Ravi → no order → NULL
+Asha → no order → NULL
+
+So all customers appear.
+
+-------------------2.RIGHT OUTER JOIN :Returns all rows from the right table and matching rows from the left table.
+EX:
+SELECT customers8.name, orders8.product
+FROM customers8
+RIGHT JOIN orders8
+ON customers8.cust_id = orders8.cust_id;
+
+Explanation
+Camera order has cust_id = 5
+But customer 5 does not exist
+So name becomes NULL
+
+All orders appear.
+
+--------------------3. FULL OUTER JOIN:Returns all rows from both tables.
+If there is no match, NULL values appear.
+
+--->In MySQL, FULL OUTER JOIN is not directly supported, but the concept is important.
+--->In MySQL, you cannot run FULL OUTER JOIN directly.
+The engine in MySQL simply does not implement that keyword. If you try it, the parser throws an error.
+
+But you can still simulate the same result using LEFT JOIN + RIGHT JOIN with UNION.
+
+
+--->UNION and UNION ALL are used to combine the results of two or more SELECT queries. 
+1. UNION ---> (will remove duplicates)UNION combines the results of multiple SELECT statements and removes duplicate rows.
+2. UNION ALL --> (will keep the duplicates).UNION ALL combines results but keeps duplicates.
+
+
+EX: 
+SELECT customers8.name, orders8.product
+FROM customers8
+LEFT JOIN orders8
+ON customers8.cust_id = orders8.cust_id
+UNION
+SELECT customers8.name, orders8.product
+FROM customers8
+RIGHT JOIN orders8
+ON customers8.cust_id = orders8.cust_id;
+
+
+------>
+. LEFT JOIN part brings all customers (even if they have no orders).
+• RIGHT JOIN part brings all orders (even if the customer is missing).
+• UNION merges them into one result set.
+
+
+------>NOTE:Important Rules
+Both queries must have the same number of columns.
+Columns must have compatible data types.
+Column order should be the same.
+
+------------------------------------------------------------4. CROSS JOIN: returns all possible combinations of rows from two tables.(Cartesian Product.)
+If
+Table A has m rows
+Table B has n rows
+
+======>Result = m × n rows
+It is also called a Cartesian Product.
